@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://api.fontshare.com/v2/css?f[]=tanker@400&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hub Central — Taller Gyver Motos</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:         #F5F5F7;
+      --card:       #FFFFFF;
+      --card-hover: #F0F0F2;
+      --orange:     #EA580C;
+      --blue:       #1D4ED8;
+      --green:      #059669;
+      --text-main:  #1D1D1F;
+      --text-sec:   #6E6E73;
+      --shadow-sm:  0 2px 20px rgba(0,0,0,0.06);
+      --shadow-md:  0 10px 44px rgba(0,0,0,0.14);
+      --radius:     22px;
+      --font:       -apple-system, 'SF Pro Display', 'Segoe UI', system-ui, sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      font-family: var(--font);
+      color: var(--text-main);
+      min-height: 100vh;
+      padding: 16px 16px 60px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── HEADER ─── */
+    .header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      margin-bottom: 12px;
+      user-select: none;
+    }
+
+    .wordmark {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .wordmark-eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--text-sec);
+    }
+
+    .wordmark-title {
+      font-family: 'Tanker', var(--font);
+      font-size: 72px;
+      font-weight: 400;
+      letter-spacing: 0.06em;
+      color: var(--text-main);
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .wordmark-accent {
+      color: var(--orange);
+    }
+
+    /* ─── BENTO GRID ─── */
+    .bento {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 12px;
+      max-width: 1160px;
+      margin: 0 auto;
+    }
+
+    /* ─── BASE CARD ─── */
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+      padding: 22px;
+      overflow: hidden;
+      position: relative;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+
+    .card-white:hover { background: var(--card-hover); }
+
+    .card-system {
+      cursor: pointer;
+      text-decoration: none;
+      display: block;
+    }
+
+    .card-system:hover {
+      transform: scale(1.025);
+      box-shadow: var(--shadow-md);
+    }
+
+    .card-system:focus-visible {
+      outline: 3px solid var(--orange);
+      outline-offset: 3px;
+    }
+
+    /* ─── GRID PLACEMENT ───────────────────────────────
+       Fila 1: Welcome(4) + Stat(1) + Stat(1)  = 6 cols
+       Fila 2-3: Motos(2) + Repuestos(2) + Pagos(2) = 6 cols × 2 rows
+       Fila 4: Activity(2) + Chart(2) + Links(2) = 6 cols
+    ─────────────────────────────────────────────────── */
+    .card-welcome   { grid-column: span 6; }
+    .card-motos     { grid-column: span 2; grid-row: span 2; background: var(--orange); }
+    .card-repuestos { grid-column: span 2; grid-row: span 2; background: var(--blue); }
+    .card-pagos     { grid-column: span 2; grid-row: span 2; background: var(--green); }
+    .card-activity  { grid-column: span 2; }
+    .card-chart     { grid-column: span 4; }
+
+    /* ─── COLOR CARD INTERNALS ─── */
+    .color-card-inner {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      min-height: 220px;
+    }
+
+    .color-card-icon {
+      width: 52px;
+      height: 52px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      flex-shrink: 0;
+    }
+
+    .color-card-icon svg {
+      width: 28px;
+      height: 28px;
+      color: #fff;
+    }
+
+    .color-card-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -0.3px;
+      line-height: 1.2;
+      margin-bottom: 6px;
+    }
+
+    .color-card-stat {
+      font-size: 14px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.82);
+      margin-bottom: auto;
+      padding-bottom: 24px;
+    }
+
+    .color-card-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,255,255,0.22);
+      color: #fff;
+      font-family: var(--font);
+      font-size: 14px;
+      font-weight: 600;
+      border: none;
+      border-radius: 100px;
+      padding: 10px 20px;
+      cursor: pointer;
+      transition: background 0.15s ease, transform 0.15s ease;
+      align-self: flex-start;
+      backdrop-filter: blur(4px);
+      pointer-events: none; /* el click lo maneja la card padre */
+    }
+
+    .card-system:hover .color-card-btn {
+      background: rgba(255,255,255,0.32);
+      transform: translateX(3px);
+    }
+
+    /* ─── WELCOME CARD ─── */
+    .welcome-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      height: 100%;
+    }
+
+    .welcome-text h2 {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.4px;
+      margin-bottom: 4px;
+    }
+
+    .welcome-date {
+      font-size: 13px;
+      color: var(--text-sec);
+      margin-bottom: 14px;
+    }
+
+    .welcome-pills {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      font-size: 12px;
+      font-weight: 600;
+      padding: 5px 12px;
+      border-radius: 100px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .pill-orange { background: #FFF0E9; color: #C24D0E; }
+    .pill-blue   { background: #EBF0FF; color: #1D4ED8; }
+    .pill-green  { background: #E6FFF6; color: #047857; }
+
+    .pill-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .dot-orange { background: #EA580C; }
+    .dot-blue   { background: #1D4ED8; }
+    .dot-green  { background: #059669; }
+
+    .mini-chart {
+      display: flex;
+      align-items: flex-end;
+      gap: 5px;
+      height: 52px;
+      flex-shrink: 0;
+    }
+
+    .bar-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .bar {
+      width: 20px;
+      border-radius: 5px 5px 0 0;
+      transition: opacity 0.2s;
+    }
+
+    .bar:hover { opacity: 0.7; }
+
+    .bar-label {
+      font-size: 10px;
+      color: var(--text-sec);
+      font-weight: 500;
+    }
+
+    /* ─── STAT CARD ─── */
+    .stat-inner {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      height: 100%;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-sec);
+    }
+
+    .stat-number {
+      font-size: 42px;
+      font-weight: 800;
+      letter-spacing: -2px;
+      color: var(--text-main);
+      line-height: 1;
+      margin-top: auto;
+    }
+
+    .stat-sublabel {
+      font-size: 12px;
+      color: var(--text-sec);
+    }
+
+    /* ─── SECCIÓN TÍTULO COMPARTIDA ─── */
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-sec);
+      margin-bottom: 18px;
+    }
+
+    /* ─── ACTIVITY CARD ─── */
+    .activity-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .activity-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 0;
+      border-bottom: 1px solid #F5F5F7;
+    }
+
+    .activity-item:last-child { border-bottom: none; }
+
+    .activity-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .ai-orange { background: #FFF0E9; }
+    .ai-blue   { background: #EBF0FF; }
+    .ai-green  { background: #E6FFF6; }
+    .ai-gray   { background: #F5F5F7; }
+
+    .activity-icon svg { width: 16px; height: 16px; }
+    .ai-orange svg { color: #EA580C; }
+    .ai-blue   svg { color: #1D4ED8; }
+    .ai-green  svg { color: #059669; }
+    .ai-gray   svg { color: #6E6E73; }
+
+    .activity-text { flex: 1; min-width: 0; }
+
+    .activity-text strong {
+      font-size: 13px;
+      font-weight: 600;
+      display: block;
+      line-height: 1.3;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .activity-text span {
+      font-size: 11px;
+      color: var(--text-sec);
+    }
+
+    .activity-tag {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 100px;
+      flex-shrink: 0;
+    }
+
+    .tag-orange { background: #FFF0E9; color: #C24D0E; }
+    .tag-blue   { background: #EBF0FF; color: #1D4ED8; }
+    .tag-green  { background: #E6FFF6; color: #047857; }
+
+    /* ─── CHART CARD ─── */
+    .chart-card-inner  { display: flex; flex-direction: column; gap: 12px; }
+    .chart-card-inner svg { width: 100%; display: block; }
+    .chart-title       { font-size: 13px; font-weight: 700; }
+    .chart-subtitle    { font-size: 11px; color: var(--text-sec); margin-top: -8px; }
+
+    /* ─── QUICK LINKS — grid 3 items ─── */
+    .links-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+    }
+
+    .link-card {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 14px;
+      border-radius: 14px;
+      text-decoration: none;
+      color: var(--text-main);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      border: 1px solid transparent;
+    }
+
+    .link-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(0,0,0,0.09);
+    }
+
+    .link-card-orange { background: #FFF0E9; border-color: #FFDCCC; }
+    .link-card-blue   { background: #EBF0FF; border-color: #C7D7FA; }
+    .link-card-green  { background: #E6FFF6; border-color: #A7F3D0; }
+
+    .link-card-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .link-card-orange .link-card-icon { background: rgba(234,88,12,0.15); }
+    .link-card-blue   .link-card-icon { background: rgba(29,78,216,0.15); }
+    .link-card-green  .link-card-icon { background: rgba(5,150,105,0.15); }
+
+    .link-card-icon svg { width: 18px; height: 18px; }
+    .link-card-orange .link-card-icon svg { color: #EA580C; }
+    .link-card-blue   .link-card-icon svg { color: #1D4ED8; }
+    .link-card-green  .link-card-icon svg { color: #059669; }
+
+    .link-card-name {
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .link-card-orange .link-card-name { color: #C24D0E; }
+    .link-card-blue   .link-card-name { color: #1D4ED8; }
+    .link-card-green  .link-card-name { color: #047857; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      .bento { grid-template-columns: repeat(4, 1fr); }
+      .card-welcome   { grid-column: span 4; }
+      .card-stat-1,
+      .card-stat-2    { grid-column: span 2; }
+      .card-motos,
+      .card-repuestos,
+      .card-pagos     { grid-column: span 2; grid-row: span 2; }
+      .card-activity  { grid-column: span 2; }
+      .card-chart     { grid-column: span 2; }
+      .links-grid     { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 20px 14px 60px; }
+      .bento { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+      .card-welcome   { grid-column: span 2; }
+      .card-stat-1,
+      .card-stat-2    { grid-column: span 1; }
+      .card-motos,
+      .card-repuestos,
+      .card-pagos     { grid-column: span 2; grid-row: span 1; }
+      .card-activity,
+      .card-chart     { grid-column: span 2; }
+      .links-grid     { grid-template-columns: repeat(3, 1fr); }
+      .color-card-inner { min-height: 160px; }
+      .stat-number    { font-size: 34px; }
+      .welcome-inner  { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="header">
+    <div class="wordmark">
+      <h1 class="wordmark-title">GYVER MOTOS</h1>
+    </div>
+  </header>
+
+  <!-- ═══ BENTO GRID ═══ -->
+  <main class="bento">
+
+    <!-- 1. WELCOME — 4 cols -->
+    <div class="card card-white card-welcome">
+      <div class="welcome-inner">
+        <div class="welcome-text">
+          <h2>Bienvenido, Gyver 👋</h2>
+          <p class="welcome-date" id="fecha-hoy"></p>
+          <div class="welcome-pills">
+            <span class="pill pill-orange"><span class="pill-dot dot-orange"></span>Motos activo</span>
+            <span class="pill pill-blue"><span class="pill-dot dot-blue"></span>Repuestos activo</span>
+            <span class="pill pill-green"><span class="pill-dot dot-green"></span>Pagos activo</span>
+          </div>
+        </div>
+        <!-- Mini bar chart decorativo -->
+        <div class="mini-chart" aria-hidden="true">
+          <div class="bar-wrap"><div class="bar" style="height:28px;background:#E5E5EA;"></div><span class="bar-label">L</span></div>
+          <div class="bar-wrap"><div class="bar" style="height:38px;background:#EA580C;opacity:0.55;"></div><span class="bar-label">M</span></div>
+          <div class="bar-wrap"><div class="bar" style="height:20px;background:#E5E5EA;"></div><span class="bar-label">X</span></div>
+          <div class="bar-wrap"><div class="bar" style="height:44px;background:#1D4ED8;opacity:0.55;"></div><span class="bar-label">J</span></div>
+          <div class="bar-wrap"><div class="bar" style="height:32px;background:#E5E5EA;"></div><span class="bar-label">V</span></div>
+          <div class="bar-wrap"><div class="bar" style="height:18px;background:#059669;opacity:0.55;"></div><span class="bar-label">S</span></div>
+          <div class="bar-wrap"><div class="bar" style="height:48px;background:#EA580C;"></div><span class="bar-label">H</span></div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- 4. ÓRDENES MOTOS — 2×2 -->
+    <a class="card card-system card-motos"
+       href="https://taller-gyvermotos.up.railway.app/"
+       aria-label="Abrir Sistema de Órdenes de Motos">
+      <div class="color-card-inner">
+        <div class="color-card-icon" aria-hidden="true">
+          <!-- Moto SVG -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="5.5"  cy="17.5" r="3.5"/>
+            <circle cx="18.5" cy="17.5" r="3.5"/>
+            <path d="M8.5 17.5h6"/>
+            <path d="M6.5 10l2 7.5"/>
+            <path d="M6.5 10h5l3-4h2l1.5 4.5"/>
+            <path d="M14.5 6H17"/>
+            <path d="M12 6.5l1.5 3.5"/>
+          </svg>
+        </div>
+        <span class="color-card-title">Órdenes de Motos</span>
+        <span class="color-card-stat">Gestión de órdenes, clientes y presupuestos</span>
+        <button class="color-card-btn" tabindex="-1" aria-hidden="true">
+          Abrir
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+      </div>
+    </a>
+
+    <!-- 5. PEDIDOS REPUESTOS — 2×2 -->
+    <a class="card card-system card-repuestos"
+       href="https://pedidos-gyvermotos.up.railway.app/"
+       aria-label="Abrir Sistema de Pedidos de Repuestos">
+      <div class="color-card-inner">
+        <div class="color-card-icon" aria-hidden="true">
+          <!-- Gear SVG -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+          </svg>
+        </div>
+        <span class="color-card-title">Pedidos Repuestos</span>
+        <span class="color-card-stat">Control de pedidos, recepción y proveedores</span>
+        <button class="color-card-btn" tabindex="-1" aria-hidden="true">
+          Abrir
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+      </div>
+    </a>
+
+    <!-- 6. PAGOS PROVEEDORES — 2×2 -->
+    <a class="card card-system card-pagos"
+       href="https://pagos-proveedores.up.railway.app/proveedores"
+       aria-label="Abrir Sistema de Pagos a Proveedores">
+      <div class="color-card-inner">
+        <div class="color-card-icon" aria-hidden="true">
+          <!-- Wallet SVG -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 12V22H4V12"/>
+            <path d="M22 7H2v5h20V7z"/>
+            <path d="M12 22V7"/>
+            <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/>
+            <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>
+          </svg>
+        </div>
+        <span class="color-card-title">Pagos Proveedores</span>
+        <span class="color-card-stat">Dashboard de deudas, movimientos y reportes</span>
+        <button class="color-card-btn" tabindex="-1" aria-hidden="true">
+          Abrir
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+      </div>
+    </a>
+
+    <!-- 7. ACTIVIDAD — 2 cols -->
+    <div class="card card-white card-activity">
+      <p class="section-label">Actividad reciente</p>
+      <div class="activity-list">
+
+        <div class="activity-item">
+          <div class="activity-icon ai-orange" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M8.5 17.5h6"/><path d="M6.5 10l2 7.5"/><path d="M6.5 10h5l3-4h2l1.5 4.5"/></svg>
+          </div>
+          <div class="activity-text">
+            <strong>Honda CB500 ingresada</strong>
+            <span>Hace 20 min</span>
+          </div>
+          <span class="activity-tag tag-orange">Motos</span>
+        </div>
+
+        <div class="activity-item">
+          <div class="activity-icon ai-blue" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06"/></svg>
+          </div>
+          <div class="activity-text">
+            <strong>Pedido #47 confirmado</strong>
+            <span>Hace 1 h</span>
+          </div>
+          <span class="activity-tag tag-blue">Repuestos</span>
+        </div>
+
+        <div class="activity-item">
+          <div class="activity-icon ai-green" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+          </div>
+          <div class="activity-text">
+            <strong>Pago a Distribuidora Sur</strong>
+            <span>Hace 3 h</span>
+          </div>
+          <span class="activity-tag tag-green">Pagos</span>
+        </div>
+
+        <div class="activity-item">
+          <div class="activity-icon ai-orange" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          </div>
+          <div class="activity-text">
+            <strong>Yamaha FZ lista para entrega</strong>
+            <span>Ayer</span>
+          </div>
+          <span class="activity-tag tag-orange">Motos</span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 8. MINI CHART — 2 cols -->
+    <div class="card card-white card-chart">
+      <div class="chart-card-inner">
+        <span class="section-label">Actividad semanal</span>
+        <span class="chart-subtitle" style="margin-top:-14px;">Accesos a los sistemas</span>
+        <svg viewBox="0 0 500 130" width="100%" role="img" aria-label="Gráfico de actividad semanal">
+          <defs>
+            <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%"   stop-color="#EA580C" stop-opacity="0.18"/>
+              <stop offset="100%" stop-color="#EA580C" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <!-- líneas de grilla -->
+          <line x1="0" y1="20"  x2="500" y2="20"  stroke="#EBEBEE" stroke-width="1"/>
+          <line x1="0" y1="50"  x2="500" y2="50"  stroke="#EBEBEE" stroke-width="1"/>
+          <line x1="0" y1="80"  x2="500" y2="80"  stroke="#EBEBEE" stroke-width="1"/>
+          <!-- área rellena -->
+          <path d="M20,105 L96,86 L172,95 L248,58 L324,72 L400,42 L476,20 L476,115 L20,115 Z" fill="url(#areaGrad)"/>
+          <!-- línea -->
+          <polyline points="20,105 96,86 172,95 248,58 324,72 400,42 476,20"
+                    fill="none" stroke="#EA580C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <!-- puntos -->
+          <circle cx="20"  cy="105" r="3.5" fill="#EA580C"/>
+          <circle cx="96"  cy="86"  r="3.5" fill="#EA580C"/>
+          <circle cx="172" cy="95"  r="3.5" fill="#EA580C"/>
+          <circle cx="248" cy="58"  r="3.5" fill="#EA580C"/>
+          <circle cx="324" cy="72"  r="3.5" fill="#EA580C"/>
+          <circle cx="400" cy="42"  r="3.5" fill="#EA580C"/>
+          <circle cx="476" cy="20"  r="5"   fill="#EA580C" stroke="#fff" stroke-width="2"/>
+          <!-- etiquetas días -->
+          <text x="20"  y="128" text-anchor="middle" font-size="13" fill="#6E6E73" font-family="-apple-system,sans-serif">L</text>
+          <text x="96"  y="128" text-anchor="middle" font-size="13" fill="#6E6E73" font-family="-apple-system,sans-serif">M</text>
+          <text x="172" y="128" text-anchor="middle" font-size="13" fill="#6E6E73" font-family="-apple-system,sans-serif">X</text>
+          <text x="248" y="128" text-anchor="middle" font-size="13" fill="#6E6E73" font-family="-apple-system,sans-serif">J</text>
+          <text x="324" y="128" text-anchor="middle" font-size="13" fill="#6E6E73" font-family="-apple-system,sans-serif">V</text>
+          <text x="400" y="128" text-anchor="middle" font-size="13" fill="#6E6E73" font-family="-apple-system,sans-serif">S</text>
+          <text x="476" y="128" text-anchor="middle" font-size="13" fill="#EA580C" font-family="-apple-system,sans-serif" font-weight="600">H</text>
+        </svg>
+      </div>
+    </div>
+
+    <!-- 9. ACCESOS RÁPIDOS — 2 cols, grid de 3 mini-cards -->
+
+  </main>
+
+  <script>
+    // Fecha dinámica
+    const dias   = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+    const meses  = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+    const hoy    = new Date();
+    const texto  = `${dias[hoy.getDay()]}, ${hoy.getDate()} de ${meses[hoy.getMonth()]} de ${hoy.getFullYear()}`;
+    document.getElementById('fecha-hoy').textContent = texto;
+
+    // Navegación por teclado en las cards de sistema
+    document.querySelectorAll('.card-system').forEach(card => {
+      card.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          card.click();
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
