@@ -455,8 +455,8 @@
     }
 
     @media (max-width: 600px) {
-      body { padding: 20px 14px 60px; }
-      .bento { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+      body { padding: 16px 14px 60px; }
+      .bento { grid-template-columns: repeat(2, 1fr); gap: 10px; }
       .card-welcome   { grid-column: span 2; }
       .card-stat-1,
       .card-stat-2    { grid-column: span 1; }
@@ -466,9 +466,29 @@
       .card-activity,
       .card-chart     { grid-column: span 2; }
       .links-grid     { grid-template-columns: repeat(3, 1fr); }
-      .color-card-inner { min-height: 160px; }
       .stat-number    { font-size: 34px; }
       .welcome-inner  { flex-direction: column; align-items: flex-start; }
+
+      /* Título en una línea */
+      .wordmark-title {
+        font-size: clamp(26px, 8vw, 72px);
+        white-space: nowrap;
+        letter-spacing: 0.03em;
+      }
+
+      /* Tarjetas de sistema compactas */
+      .card-system { padding: 16px; }
+      .color-card-inner { min-height: 0; }
+      .color-card-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+        margin-bottom: 8px;
+      }
+      .color-card-icon svg { width: 20px; height: 20px; }
+      .color-card-title { font-size: 17px; margin-bottom: 4px; }
+      .color-card-stat { display: none; }
+      .color-card-btn { padding: 8px 14px; font-size: 12px; margin-top: 10px; }
     }
   </style>
 </head>
