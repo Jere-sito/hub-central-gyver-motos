@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://api.fontshare.com/v2/css?f[]=tanker@400&display=swap" rel="stylesheet">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Hub Central — Taller Gyver Motos</title>
   <style>
@@ -35,42 +34,61 @@
     }
 
     /* ─── HEADER ─── */
-    .header {
+    /* ─── HEADER ─── */
+    .gm-header {
       display: flex;
-      flex-direction: column;
       align-items: center;
-      gap: 4px;
+      gap: 14px;
       margin-bottom: 12px;
       user-select: none;
     }
 
-    .wordmark {
+    .gm-logo {
+      width: 52px;
+      height: 52px;
+      background: var(--orange);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .gm-logo svg {
+      width: 26px;
+      height: 26px;
+      color: #fff;
+    }
+
+    .gm-text {
       display: flex;
       flex-direction: column;
-      align-items: center;
-      gap: 2px;
+      gap: 3px;
     }
 
-    .wordmark-eyebrow {
+    .gm-wordmark {
+      font-size: 32px;
+      font-family: var(--font);
+      line-height: 1;
+      letter-spacing: -0.3px;
+    }
+
+    .gm-wordmark .strong {
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .gm-wordmark .soft {
+      font-weight: 400;
+      color: #8E8E93;
+    }
+
+    .gm-tagline {
       font-size: 11px;
       font-weight: 600;
-      letter-spacing: 0.22em;
+      letter-spacing: 0.1em;
+      color: #8E8E93;
       text-transform: uppercase;
-      color: var(--text-sec);
-    }
-
-    .wordmark-title {
-      font-family: 'Tanker', var(--font);
-      font-size: 72px;
-      font-weight: 400;
-      letter-spacing: 0.06em;
-      color: var(--text-main);
-      line-height: 1;
-      text-transform: uppercase;
-    }
-
-    .wordmark-accent {
-      color: var(--orange);
     }
 
     /* ─── BENTO GRID ─── */
@@ -469,12 +487,8 @@
       .stat-number    { font-size: 34px; }
       .welcome-inner  { flex-direction: column; align-items: flex-start; }
 
-      /* Título en una línea */
-      .wordmark-title {
-        font-size: clamp(26px, 8vw, 72px);
-        white-space: nowrap;
-        letter-spacing: 0.03em;
-      }
+      /* Título mobile compacto */
+      .gm-wordmark { font-size: clamp(22px, 7vw, 32px); }
 
       /* Tarjetas de sistema compactas */
       .card-system { padding: 16px; }
@@ -495,9 +509,21 @@
 <body>
 
   <!-- ═══ HEADER ═══ -->
-  <header class="header">
-    <div class="wordmark">
-      <h1 class="wordmark-title">GYVER MOTOS</h1>
+  <header class="gm-header">
+    <div class="gm-logo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="5.5" cy="17" r="3.5" />
+        <circle cx="18.5" cy="17" r="3.5" />
+        <path d="M5.5 17 L10 10 L15.5 10" />
+        <path d="M18.5 17 L14.5 10.5" />
+        <path d="M15.5 10 L17.5 7 L20 7" />
+        <path d="M10 10 L8.5 13.5 L12 13.5" />
+      </svg>
+    </div>
+    <div class="gm-text">
+      <h1 class="gm-wordmark"><span class="strong">GYVER</span> <span class="soft">MOTOS</span></h1>
+      <div class="gm-tagline">Taller · Repuestos · Servicio</div>
     </div>
   </header>
 
